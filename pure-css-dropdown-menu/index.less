@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+}
+
+.content {
+  margin: auto;
+  width: 900pt;
+  border: 1pt solid black;
+}
+
+.no-list-markers {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.clear-fix {
+  content: "clearfix";
+  clear: right;
+  font-size: 0;
+}
+
+/** Наша менюшка */
+ul.menu {
+  /** Боковые отступы для пунктов меню */
+  @side-padding: 10pt;
+
+  /** Смещение для вслывающих пунктов подменюшек */
+  @margin-top: -10pt;
+  @margin-left: 50%;
+
+  /** Убираем маркеры */
+  .no-list-markers;
+
+  /** Кэп */
+  &:after { .clear-fix; }
+
+  background-color: lightcyan;
+
+  /** Убираем маркеры и скрываем все пункты всех подменю */
+  ul {
+    .no-list-markers;
+
+    display: none;
+  }
+
+  /** Самый-самый первый уровень меню должен быть горизонтальным */
+  > li {
+    float: left;
+
+    /** А его потомки должны начинаться с той же точки X, что и он */
+    > ul {
+      margin-left: -@side-padding;
+    }
+  }
+
+  /** Логика отображения подменю */
+  li {
+    background-color: lightcyan;
+    padding: 0 @side-padding;
+
+    &:hover {
+      background: darkseagreen;
+      > ul {
+        display: block;
+        white-space: nowrap;
+        position: absolute;
+
+        > li {
+          &:hover {
+            > ul {
+              display: block;
+              position: absolute;
+              margin-top: @margin-top;
+              margin-left: @margin-left;
+            }
+          }
+        }
+      }
+    }
+  }
+}
